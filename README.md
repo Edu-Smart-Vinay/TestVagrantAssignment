@@ -33,7 +33,6 @@ Playing songs < initial capability
 
 Code Workflow Testing:
 
-Positive Test Cases:
 TC7: 
 Step 1:Entering users and songs
 Step 2:Querying all users recent songs
@@ -54,7 +53,6 @@ Step 3:Querying single user recent songs
 Step 4:Repeat step 1 to step 3 (Changing initial capability)
 Step 5:Exit
 
-Negative Testing:
 TC10:
 Step 1:Querying all users or single user recent songs(without giving any entries)
 Step 2:Exit
@@ -69,3 +67,7 @@ Step 1:Giving TypeMismatch input
 
 TC13: 
 Step 1:Giving wrong choice as input from the menu
+
+TC14:
+Step 1:Entering users and songs(username=songname)
+Step 2:Querying single user recent songs
