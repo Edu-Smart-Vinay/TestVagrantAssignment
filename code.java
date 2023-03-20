@@ -119,5 +119,6 @@ public class code{
     public static void main(String[] args) {
         RecentSongs obj = new RecentSongs();
         obj.menu();
+        //Test cases can be found in Readme file
     }
 }
