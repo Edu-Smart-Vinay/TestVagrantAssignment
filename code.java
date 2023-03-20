@@ -1,138 +1,123 @@
 import java.util.*;
-import java.io.*;
-class recentSongs
-{
-    Scanner sc = new Scanner(System.in);
-    int capacity,queries,option,choice;
-    String user,song;
-    Map<String, Queue<String>> map = new HashMap<>();
-    
-    void menu()
-    {
-        try
-        {
-        	System.out.println("Enter 1 to give input of users and songs \nEnter 2 to query the recent songs played by users\nEnter 3 to exit");
-        	option = sc.nextInt();
-        }
-        catch(InputMismatchException e)
-        {
+
+class RecentSongs {
+    private int capacity;
+    private int queries;
+    private int option;
+    private int choice;
+    private String user;
+    private String song;
+    private Map<String, Queue<String>> map;
+
+    public RecentSongs() {
+        capacity = 0;
+        queries = 0;
+        option = 0;
+        choice = 0;
+        user = "";
+        song = "";
+        map = new HashMap<>();
+    }
+
+    public void menu() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Enter 1 to give input of users and songs \nEnter 2 to query the recent songs played by users\nEnter 3 to exit");
+            option = scanner.nextInt();
+        } catch (InputMismatchException e) {
             System.out.println("Invalid input type");
             return;
         }
-        if(option==1)
-        	inputMenu();
-        else if(option==2)
-        	printRecentSongs();
-        else
-        	return;
+        if (option == 1) {
+            inputMenu();
+        } else if (option == 2) {
+            printRecentSongs();
+        } else {
+            return;
+        }
     }
-    
-    void inputMenu()
-    {
-        try
-        {
-        	System.out.println("Enter Capability of playlist:");
-        	capacity=sc.nextInt();
-			
-			if(capacity<=0){
+
+    public void inputMenu() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.println("Enter Capability of playlist:");
+            capacity = scanner.nextInt();
+
+            if (capacity <= 0) {
                 System.out.println("Out of Space.Please enter a positive number.\n");
                 menu();
             }
-        
-        	System.out.println("Enter no of user-song pairs:");
-        	queries=sc.nextInt();
-        }
-        catch(InputMismatchException e)
-        {
+
+            System.out.println("Enter no of user-song pairs:");
+            queries = scanner.nextInt();
+        } catch (InputMismatchException e) {
             System.out.println("Invalid input type");
             return;
         }
-        sc.nextLine();
-       
-        for(int i=0;i<queries;i++){
-            
+        for (int i = 0; i < queries; i++) {
             System.out.println("Enter username:");
-            user = sc.nextLine();
-           
+            user = scanner.next();
+
             System.out.println("Enter song:");
-            song = sc.nextLine();
-            
-            
+            song = scanner.next();
+
             checkPlaylist();
-           
         }
-        
+
         menu();
     }
-    
-    void checkPlaylist()
-    {
-          if(map.containsKey(user))
-          {
-               
-                if(map.get(user).size()==capacity)
-                {
-                    //remove least recently played song
-                    map.get(user).remove(); 
-                    //add new song
-                    map.get(user).add(song); 
-                }
-                else{
-                    //add new song
-                    map.get(user).add(song); 
-                }
-            }
-            
-            if(!map.containsKey(user))
-            {
-                map.put(user,new PriorityQueue<>());
+
+    public void checkPlaylist() {
+        if (map.containsKey(user)) {
+            if (map.get(user).size() == capacity) {
+                // remove least recently played song
+                map.get(user).remove(); 
+                // add new song
+                map.get(user).add(song); 
+            } else {
+                // add new song
                 map.get(user).add(song); 
             }
+        } else {
+            map.put(user,new PriorityQueue<>());
+            map.get(user).add(song); 
+        }
     }
-    
-    void printRecentSongs()
-    {
-            if(map.isEmpty())
-            {
-                System.out.println("No user data found.\nPlease enter song-user pairs first\n");
+
+    public void printRecentSongs() {
+        if (map.isEmpty()) {
+            System.out.println("No user data found.\nPlease enter song-user pairs first\n");
+        } else {
+            Scanner scanner = new Scanner(System.in);
+            try {
+                System.out.println("Enter: \n1.To find recent songs of a single user\n2.To find recent songs of all users ");
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input type");
+                return;
             }
-            else
-            {
-                try
-                {
-                    System.out.println("Enter: \n1.To find recent songs of a single user\n2.To find recent songs of all users ");
-                    choice=sc.nextInt();
-                    sc.nextLine();
+            if (choice == 1) {
+                System.out.println("Enter username to find his or her recent songs:");
+                String inp = scanner.next();
+                if (map.containsKey(inp)) {
+                    System.out.println(map.get(inp));
+                } else {
+                    System.out.println("Invalid user\n");
                 }
-                catch(InputMismatchException e){
-                    System.out.println("Invalid input type");
-                    return;
-                }
-                    if(choice==1)
-                    {
-                        System.out.println("Enter username to find his or her recent songs:");
-                        String inp=sc.nextLine();
-                        if(map.containsKey(inp))
-                            System.out.println(map.get(inp));
-                        else
-                            System.out.println("Invalid user\n");
-                    }
-                    else if(choice==2)
-                        System.out.println("Recent songs palyed by all users are: " + map);
-                    else
-                        System.out.println("Enter valid choice");
+            } else if (choice == 2) {
+                System.out.println("Recent songs palyed by all users are:" + map);
+            } else {
+                System.out.println("Enter valid choice");
             }
-            
-            menu();
+        }
+        menu();
     }
+
 }
-public class code 
-{
-    public static void main(String args[]) 
-    {
-    	recentSongs obj = new recentSongs();
-    	obj.menu();
-		
-		//Testcases can be found in Readme file
+
+public class code{
+    public static void main(String[] args) {
+        RecentSongs obj = new RecentSongs();
+        obj.menu();
     }
 }
